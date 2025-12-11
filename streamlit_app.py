@@ -11,14 +11,45 @@ st.set_page_config(
 )
 
 # -------------------------------------------------------
+# 🔹 TEST CONNEXION BIGQUERY (DEBUG)
+# -------------------------------------------------------
+st.write("## 🔍 Debug - Connexion BigQuery")
+
+from config import PROJECT_ID, DATASET_ENRICHIE, client
+
+st.write(f"- **Project ID** : `{PROJECT_ID}`")
+st.write(f"- **Dataset** : `{DATASET_ENRICHIE}`")
+
+try:
+    tables = list(client.list_tables(DATASET_ENRICHIE))
+    table_names = [t.table_id for t in tables]
+    st.success(f"✅ Dataset trouvé avec {len(table_names)} tables")
+    st.write("**Tables disponibles** :")
+    for name in table_names:
+        st.write(f"  - `{name}`")
+except Exception as e:
+    st.error(f"❌ Impossible de lister les tables : {e}")
+    st.stop()
+
+st.write("---")
+
+# -------------------------------------------------------
 # 🔹 Chargement des données centralisé
 # -------------------------------------------------------
-# ✅ NOUVEAU CODE (sans cache pour debug)
+st.write("## 📊 Chargement des données")
+
 # @st.cache_data  # ⚠️ Désactivé temporairement pour debug
 def load_all_data():
     return load_data()
 
-df_personas, df_clusters, ticket = load_all_data()
+try:
+    df_personas, df_clusters, ticket = load_all_data()
+    st.success("✅ Toutes les données chargées avec succès")
+except Exception as e:
+    st.error(f"❌ Erreur lors du chargement : {e}")
+    st.stop()
+
+st.write("---")
 
 # -------------------------------------------------------
 # 🔹 Onglets principaux (navigation en haut)
@@ -37,12 +68,38 @@ tabs = [
 
 selected_tab = st.tabs(tabs)
 
-# -------------------------------------------------------
-# 🔹 Page Accueil
-# -------------------------------------------------------
-with selected_tab[0]:
-    from pages import _acceuil
-    _acceuil.run()
+# ... reste du code (pages) ...
+```
+
+## 🎯 Ce que ça va nous montrer
+
+Une fois déployé, vous verrez **en haut de la page** :
+
+1. ✅ Le Project ID exact
+2. ✅ Le nom du dataset
+3. ✅ **La liste complète des tables disponibles**
+4. ✅ Les messages de debug de `data_loader.py`
+
+## 🔍 Scénarios possibles
+
+### Scénario A : Les tables ont des noms différents
+```
+Tables disponibles :
+  - personas_profile (sans 's')
+  - clusters (avec 's')
+  - tickets (avec 's')
+```
+→ Il faudra corriger les noms dans `data_loader.py`
+
+### Scénario B : Le dataset n'existe pas
+```
+❌ Impossible de lister les tables : 404 Dataset XXX not found
+```
+→ Le nom du dataset dans `config.py` est incorrect
+
+### Scénario C : Problème de permissions
+```
+❌ Impossible de lister les tables : 403 Permission denied
 
 # -------------------------------------------------------
 # 🔹 Page Team & Project
