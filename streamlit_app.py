@@ -7,10 +7,12 @@ from google.oauth2 import service_account
 # -------------------------------------------------------
 service_account_info = st.secrets["bigquery"]
 
+# Création des credentials
 credentials = service_account.Credentials.from_service_account_info(service_account_info)
 PROJECT_ID = service_account_info["project_id"]
-DATASET_ENRICHIE = "data_enrichie"
+DATASET_ENRICHIE = "data_enrichie"  # Vérifie que c'est exactement le nom dans BigQuery
 
+# Création du client avec localisation EU
 client = bigquery.Client(
     credentials=credentials,
     project=PROJECT_ID,
