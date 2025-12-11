@@ -1,10 +1,9 @@
-
-
+# --- Visualisation ---
 plotly==5.18.0
-
 seaborn==0.13.0
 matplotlib==3.8.2
 Pillow>=10.3.0
+
 # --- App Framework ---
 streamlit
 
@@ -18,9 +17,29 @@ google-auth-httplib2
 pandas
 numpy
 scikit-learn
-matplotlib
 seaborn
 
-# --- Optional utils ---
-protobuf==4.25.3    # règle des problèmes BigQuery/Google API
-pyarrow              # recommandé pour BigQuery et pandas
+# --- Utils ---
+protobuf==4.25.3
+pyarrow
+```
+
+## 📋 Résumé des actions
+
+| Action | Priorité | Fichier |
+|--------|----------|---------|
+| Supprimer bloc test BigQuery | 🔴 URGENT | `streamlit_app.py` (lignes 1-20) |
+| Créer `utils/__init__.py` | 🔴 URGENT | Nouveau fichier |
+| Créer `pages/__init__.py` | 🔴 URGENT | Nouveau fichier |
+| Supprimer duplication matplotlib | 🟡 Moyen | `requirements.txt` |
+| Ajouter gestion erreur | 🟢 Optionnel | `data_loader.py` |
+
+## ✅ Validation finale
+
+Une fois ces corrections faites, votre architecture sera cohérente :
+```
+config.py → Initialise client BigQuery + variables globales
+    ↓
+data_loader.py → Charge les données via le client
+    ↓
+streamlit_app.py → Utilise les données et affiche l'interface
