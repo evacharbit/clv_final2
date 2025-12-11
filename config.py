@@ -1,8 +1,6 @@
 """CONFIGURATION PROJET CLV AUCHAN"""
 import os
-import sys
 import streamlit as st
-import json
 from google.oauth2 import service_account
 from google.cloud import bigquery
 
@@ -13,17 +11,18 @@ print("="*70)
 print(f"\n:dossier: Répertoire : {os.getcwd()}")
 
 # Lecture du JSON depuis Streamlit secrets
-service_account_info = st.secrets["gcp"]["service_account_json"]
+service_account_info = st.secrets["gcp"]["service_account_json"]  # déjà dict
 
+# Création des credentials
 credentials = service_account.Credentials.from_service_account_info(
     service_account_info
 )
 
+# Client BigQuery
 client = bigquery.Client(
     credentials=credentials,
     project=service_account_info["project_id"]
 )
-
 
 # Désactivation du mode développement
 PHASE_DEVELOPPEMENT = False
