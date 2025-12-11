@@ -13,7 +13,7 @@ print("="*70)
 print(f"\n:dossier: Répertoire : {os.getcwd()}")
 
 # Lecture du JSON depuis Streamlit secrets
-service_account_info = json.loads(st.secrets["gcp"]["service_account_json"])
+service_account_info = st.secrets["gcp"]["service_account_json"]
 
 credentials = service_account.Credentials.from_service_account_info(
     service_account_info
