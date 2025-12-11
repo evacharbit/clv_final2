@@ -1,35 +1,23 @@
 import streamlit as st
-import streamlit as st
-import json
+from google.cloud import bigquery
 from google.oauth2 import service_account
-from google.cloud import bigquery  # ou storage, etc.
+import pandas as pd
 
-bigquery_secrets = st.secrets["bigquery"]
-# Charger les secrets BigQuery
-bigquery_secrets = st.secrets["bigquery"]
+# -------------------------------------------------------
+# 🔹 Configuration BigQuery avec secrets Streamlit
+# -------------------------------------------------------
+credentials_info = st.secrets["bigquery"]
+credentials = service_account.Credentials.from_service_account_info(credentials_info)
+client = bigquery.Client(credentials=credentials, project=credentials_info["project_id"])
 
-# Sauvegarder temporairement le JSON
-with open("bigquery_key.json", "w") as f:
-    json.dump(bigquery_secrets, f)
-
-# Initialiser le client BigQuery
-client = bigquery.Client.from_service_account_json("bigquery_key.json")
-
-# Charger les credentials depuis secrets.toml
-service_account_info = json.loads(st.secrets["gcp"]["service_account_json"])
-credentials = service_account.Credentials.from_service_account_info(service_account_info)
-
-# Utiliser avec BigQuery (exemple)
-client = bigquery.Client(credentials=credentials, project=service_account_info["project_id"])
-
-# Votre app Streamlit
-st.title("Mon app GCP")
-
-# Exemple de requête
+# Exemple de requête test (optionnel, tu peux adapter)
 query = "SELECT * FROM `mon_dataset.ma_table` LIMIT 10"
-df = client.query(query).to_dataframe()
-st.dataframe(df)
-
+try:
+    df_test = client.query(query).to_dataframe()
+    st.write("✅ Connexion BigQuery OK, aperçu des données :")
+    st.dataframe(df_test)
+except Exception as e:
+    st.error(f"Erreur BigQuery : {e}")
 
 # -------------------------------------------------------
 # 🔹 Configuration générale de la page
@@ -73,8 +61,7 @@ tabs = [
     "🎯 Simulateur"
 ]
 
-selected_tab = st.tabs(tabs)  # Onglets en haut
-# selected_tab retourne une liste d'objets "tab" correspondant à chaque onglet
+selected_tab = st.tabs(tabs)
 
 # -------------------------------------------------------
 # 🔹 Page Accueil
