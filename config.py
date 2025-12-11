@@ -12,13 +12,15 @@ service_account_info = st.secrets["bigquery"]
 # Création des credentials
 credentials = service_account.Credentials.from_service_account_info(service_account_info)
 
-# Client BigQuery
-client = bigquery.Client(credentials=credentials, project=service_account_info["project_id"])
-location="EU"
+# Client BigQuery avec localisation EU
+PROJECT_ID = service_account_info["project_id"]
+DATASET_ENRICHIE = "data_enrichie"  # ton dataset réel
 
-# Définir les variables pour les datasets
-PROJECT_ID = service_account_info["auchan-clv"]
-DATASET_ENRICHIE = "data_enrichie"  # Remplace par ton dataset réel
+client = bigquery.Client(
+    credentials=credentials,
+    project=PROJECT_ID,
+    location="EU"  # important pour la localisation
+)
 
 # -------------------------------------------------------
 # 🔹 Configuration générale
