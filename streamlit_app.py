@@ -1,4 +1,31 @@
 import streamlit as st
+from google.cloud import bigquery
+from google.oauth2 import service_account
+
+# -------------------------------------------------------
+# 🔹 Test connexion BigQuery
+# -------------------------------------------------------
+service_account_info = st.secrets["bigquery"]
+
+credentials = service_account.Credentials.from_service_account_info(service_account_info)
+PROJECT_ID = service_account_info["project_id"]
+DATASET_ENRICHIE = "data_enrichie"
+
+client = bigquery.Client(
+    credentials=credentials,
+    project=PROJECT_ID,
+    location="EU"
+)
+
+# Lister les tables du dataset pour vérifier la connexion
+try:
+    tables = list(client.list_tables(DATASET_ENRICHIE))
+    st.success(f"✅ Connexion OK, tables disponibles : {[t.table_id for t in tables]}")
+except Exception as e:
+    st.error(f"❌ Erreur de connexion BigQuery : {e}")
+
+
+import streamlit as st
 from utils.data_loader import load_data
 
 # -------------------------------------------------------
