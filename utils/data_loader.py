@@ -1,5 +1,5 @@
 import pandas as pd
-from config import PROJECT_ID, DATASET_ENRICHIE, client  # client BigQuery depuis config
+from config import PROJECT_ID, DATASET_ENRICHIE, client
 
 def load_personas_profiles():
     query = f"""
@@ -23,6 +23,12 @@ def load_ticket():
     return client.query(query).to_dataframe()
 
 def load_data():
+    """
+    Charge les trois tables essentielles :
+    - personas_profiles
+    - cluster
+    - ticket
+    """
     personas_profiles = load_personas_profiles()
     clusters = load_clusters()
     ticket = load_ticket()
