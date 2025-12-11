@@ -1,4 +1,24 @@
 import streamlit as st
+import streamlit as st
+import json
+from google.oauth2 import service_account
+from google.cloud import bigquery  # ou storage, etc.
+
+# Charger les credentials depuis secrets.toml
+service_account_info = json.loads(st.secrets["gcp"]["service_account_json"])
+credentials = service_account.Credentials.from_service_account_info(service_account_info)
+
+# Utiliser avec BigQuery (exemple)
+client = bigquery.Client(credentials=credentials, project=service_account_info["project_id"])
+
+# Votre app Streamlit
+st.title("Mon app GCP")
+
+# Exemple de requête
+query = "SELECT * FROM `mon_dataset.ma_table` LIMIT 10"
+df = client.query(query).to_dataframe()
+st.dataframe(df)
+
 
 # -------------------------------------------------------
 # 🔹 Configuration générale de la page
