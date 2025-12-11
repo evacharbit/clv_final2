@@ -1,0 +1,18 @@
+# --- ENVIRONNEMENTS LOCAUX ---
+venv/
+.venv/
+venv_auchan/
+__pycache__/
+
+# --- STREAMLIT ---
+.streamlit/secrets.toml
+
+# --- CREDENTIALS (ne jamais mettre sur GitHub !) ---
+*.json
+!settings.json     # on garde les fichiers JSON non sensibles si besoin
+
+# --- AUTRES ---
+outputs/
+*.html
+*.save
+.vscode/

@@ -1,0 +1,52 @@
+"""
+CONFIGURATION PROJET CLV AUCHAN
+"""
+import os
+import sys
+print("="*70)
+print(":clé_anglaise: CONFIGURATION BIGQUERY")
+print("="*70)
+print(f"\n:dossier: Répertoire : {os.getcwd()}")
+PROJECT_ID = 'auchan-clv'
+DATASET_RAW = 'data_raw'
+DATASET_CLEAN = 'data_clean'
+CREDENTIALS_PATH = os.path.join(os.getcwd(), 'bigquery_key.json')
+print(f"\n:loupe_gauche: Recherche de la clé : {CREDENTIALS_PATH}")
+if os.path.exists(CREDENTIALS_PATH):
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = CREDENTIALS_PATH
+    print(f":coche_blanche: Clé trouvée et chargée !")
+    import json
+    with open(CREDENTIALS_PATH, 'r') as f:
+        creds = json.load(f)
+        json_project_id = creds.get('project_id', 'N/A')
+        print(f":histogramme: Project ID dans le JSON : {json_project_id}")
+        if json_project_id != PROJECT_ID:
+            print(f":danger:  ATTENTION : PROJECT_ID différent !")
+            print(f"   Dans config.py : {PROJECT_ID}")
+            print(f"   Dans JSON : {json_project_id}")
+            print(f":ampoule: Utilisez : {json_project_id}")
+else:
+    print(f":x: Clé introuvable !")
+    sys.exit(1)
+PHASE_DEVELOPPEMENT = True
+if PHASE_DEVELOPPEMENT:
+    SAMPLE_SIZE = 50000
+    print(f":danger:  MODE DÉVELOPPEMENT : 50,000 clients")
+else:
+    SAMPLE_SIZE = None
+N_PERSONAS = 6
+RANDOM_STATE = 42
+HORIZONS_ROI = {
+    'court_terme': 30,
+    'moyen_terme': 90,
+    'long_terme': 180
+}
+OUTPUT_DIR = 'outputs'
+MODELS_DIR = 'models'
+REPORTS_DIR = 'reports'
+for dir_path in [OUTPUT_DIR, MODELS_DIR, REPORTS_DIR]:
+    os.makedirs(dir_path, exist_ok=True)
+print(f"\n:coche_blanche: Configuration OK")
+print("="*70)
+
+^X
