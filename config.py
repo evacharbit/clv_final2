@@ -17,7 +17,7 @@ client = bigquery.Client(credentials=credentials, project=service_account_info["
 location="EU"
 
 # Définir les variables pour les datasets
-PROJECT_ID = service_account_info["project_id"]
+PROJECT_ID = service_account_info["auchan-clv"]
 DATASET_ENRICHIE = "data_enrichie"  # Remplace par ton dataset réel
 
 # -------------------------------------------------------
