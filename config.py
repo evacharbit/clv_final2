@@ -11,7 +11,7 @@ print("="*70)
 print(f"\n:dossier: Répertoire : {os.getcwd()}")
 
 
-service_account_info = st.secrets["gcp"]
+service_account_info = st.secrets["bigquery"]
 
 
 
