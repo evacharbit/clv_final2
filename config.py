@@ -56,3 +56,27 @@ for dir_path in [OUTPUT_DIR, MODELS_DIR, REPORTS_DIR]:
 
 print(f"\n:coche_blanche: Configuration OK")
 print("="*70)
+
+
+# -------------------------------------------------------
+# 🔹 Vérification des tables (DEBUG)
+# -------------------------------------------------------
+try:
+    tables = list(client.list_tables(DATASET_ENRICHIE))
+    table_names = [t.table_id for t in tables]
+    print(f"\n📊 Tables trouvées dans {DATASET_ENRICHIE}:")
+    for name in table_names:
+        print(f"   - {name}")
+    
+    # Vérifier les tables attendues
+    required_tables = ['personas_profiles', 'cluster', 'ticket']
+    missing = [t for t in required_tables if t not in table_names]
+    
+    if missing:
+        print(f"\n⚠️ ATTENTION : Tables manquantes : {missing}")
+        print(f"   Tables disponibles : {table_names}")
+    else:
+        print(f"\n✅ Toutes les tables requises sont présentes")
+        
+except Exception as e:
+    print(f"\n❌ Erreur lors de la vérification des tables : {e}")
