@@ -10,14 +10,6 @@ credentials_info = st.secrets["bigquery"]
 credentials = service_account.Credentials.from_service_account_info(credentials_info)
 client = bigquery.Client(credentials=credentials, project=credentials_info["project_id"])
 
-# Exemple de requête test (optionnel, tu peux adapter)
-query = "SELECT * FROM `mon_dataset.ma_table` LIMIT 10"
-try:
-    df_test = client.query(query).to_dataframe()
-    st.write("✅ Connexion BigQuery OK, aperçu des données :")
-    st.dataframe(df_test)
-except Exception as e:
-    st.error(f"Erreur BigQuery : {e}")
 
 # -------------------------------------------------------
 # 🔹 Configuration générale de la page
