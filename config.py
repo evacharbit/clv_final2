@@ -21,7 +21,7 @@ credentials = service_account.Credentials.from_service_account_info(
 
 client = bigquery.Client(
     credentials=credentials,
-    project=service_account_info["PORJECT_ID"]
+    project=service_account_info["project_id"]
 )
 
 
