@@ -14,6 +14,7 @@ credentials = service_account.Credentials.from_service_account_info(service_acco
 
 # Client BigQuery
 client = bigquery.Client(credentials=credentials, project=service_account_info["project_id"])
+location="EU"
 
 # Définir les variables pour les datasets
 PROJECT_ID = service_account_info["project_id"]
