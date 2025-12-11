@@ -1,15 +1,5 @@
 import streamlit as st
-from google.cloud import bigquery
-from google.oauth2 import service_account
-import pandas as pd
-
-# -------------------------------------------------------
-# 🔹 Configuration BigQuery avec secrets Streamlit
-# -------------------------------------------------------
-credentials_info = st.secrets["bigquery"]
-credentials = service_account.Credentials.from_service_account_info(credentials_info)
-client = bigquery.Client(credentials=credentials, project=credentials_info["project_id"])
-
+from utils.data_loader import load_data
 
 # -------------------------------------------------------
 # 🔹 Configuration générale de la page
@@ -23,20 +13,11 @@ st.set_page_config(
 # -------------------------------------------------------
 # 🔹 Chargement des données centralisé
 # -------------------------------------------------------
-from utils.data_loader import (
-    load_personas_profiles,
-    load_clusters,
-    load_ticket
-)
-
 @st.cache_data
-def load_data():
-    df_personas = load_personas_profiles()
-    df_clusters = load_clusters()
-    ticket = load_ticket()
-    return df_personas, df_clusters, ticket
+def load_all_data():
+    return load_data()
 
-df_personas, df_clusters, ticket = load_data()
+df_personas, df_clusters, ticket = load_all_data()
 
 # -------------------------------------------------------
 # 🔹 Onglets principaux (navigation en haut)
