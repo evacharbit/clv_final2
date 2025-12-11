@@ -5,6 +5,15 @@ from google.oauth2 import service_account
 from google.cloud import bigquery  # ou storage, etc.
 
 bigquery_secrets = st.secrets["bigquery"]
+# Charger les secrets BigQuery
+bigquery_secrets = st.secrets["bigquery"]
+
+# Sauvegarder temporairement le JSON
+with open("bigquery_key.json", "w") as f:
+    json.dump(bigquery_secrets, f)
+
+# Initialiser le client BigQuery
+client = bigquery.Client.from_service_account_json("bigquery_key.json")
 
 # Charger les credentials depuis secrets.toml
 service_account_info = json.loads(st.secrets["gcp"]["service_account_json"])
