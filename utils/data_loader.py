@@ -1,6 +1,5 @@
 import pandas as pd
-from google.cloud import bigquery
-from config import PROJECT_ID, DATASET_ENRICHIE, client  # importer le client directement
+from config import PROJECT_ID, DATASET_ENRICHIE, client  # client BigQuery depuis config
 
 def load_personas_profiles():
     query = f"""
