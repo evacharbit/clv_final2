@@ -13,7 +13,8 @@ st.set_page_config(
 # -------------------------------------------------------
 # 🔹 Chargement des données centralisé
 # -------------------------------------------------------
-@st.cache_data
+# ✅ NOUVEAU CODE (sans cache pour debug)
+# @st.cache_data  # ⚠️ Désactivé temporairement pour debug
 def load_all_data():
     return load_data()
 
