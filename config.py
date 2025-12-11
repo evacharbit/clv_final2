@@ -9,7 +9,7 @@ print("="*70)
 print(" CONFIGURATION BIGQUERY")
 print("="*70)
 print(f"\n:dossier: Répertoire : {os.getcwd()}")
-service_account_info = st.secrets["gcp_service_account"]
+service_account_info = st.secrets["gcp"]
 
 
 # Création des credentials
